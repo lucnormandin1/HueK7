@@ -11,6 +11,11 @@ import nl.q42.jue.StateUpdate;
 import nl.q42.jue.exceptions.ApiException;
 import processing.net.*;
 import processing.core.PApplet;
+import de.voidplus.leapmotion.*;
+//import com.leapmotion.*;
+
+
+
 
 public class MyProject extends PApplet implements WindowFocusListener {
 
@@ -23,20 +28,25 @@ public class MyProject extends PApplet implements WindowFocusListener {
 	public int mbrightness;
 	public Client myClient;
 	private HueBridge bridge; 
-
+	public LeapMotion leap;
+	
 	public void setup() {
 
 		// Setup
-		size(WIDTH, HEIGHT, OPENGL);
+		size(WIDTH, HEIGHT, P3D);
 		hint(ENABLE_OPENGL_ERRORS);
 		hint(DISABLE_TEXTURE_MIPMAPS);
 
+		
+		
 		// Focus listener
 		frame.addWindowFocusListener(this);
+		
 		
 		bridge = new HueBridge("192.168.1.10");
 		mbrightness = 0;
 		frameRate(40);
+		
 		
 		try {
 			
@@ -64,8 +74,7 @@ public class MyProject extends PApplet implements WindowFocusListener {
 		
 		
 		
-		 
-		
+		leap = new LeapMotion(this);
 	
 	}
 
@@ -73,7 +82,15 @@ public class MyProject extends PApplet implements WindowFocusListener {
 
 		// Clear background
 		background(255, 0, 250);
-
+		
+	/*	for (Hand hand : leap.getHands()) {
+			  hand.draw();
+			 
+			  for (Finger finger : hand.getFingers()) {
+			    finger.draw();
+			  }
+			}
+*/
 	}
 	
 	public void mousePressed(){
