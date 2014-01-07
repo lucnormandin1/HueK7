@@ -36,5 +36,12 @@
 	<classpathentry kind="lib" path="lib/processing/serial.jar"/>
 	<classpathentry kind="lib" path="lib/processing/tritonus_aos.jar"/>
 	<classpathentry kind="lib" path="lib/processing/tritonus_share.jar"/>
+	<classpathentry kind="lib" path="lib/LeapJava.jar"/>
+	<classpathentry kind="lib" path="lib/processing/LeapJava.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/Users/lucnormandin/Downloads/LeapDeveloperKit/LeapSDK/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/processing/LeapMotionForProcessing.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
