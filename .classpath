@@ -39,7 +39,7 @@
 	<classpathentry kind="lib" path="lib/LeapJava.jar"/>
 	<classpathentry kind="lib" path="lib/processing/LeapJava.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/Users/lucnormandin/Downloads/LeapDeveloperKit/LeapSDK/lib"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/Users/lucnormandin/PRODUCTION/PROJECTS/Coding/App/HueK7/lib/LeapDeveloperKit/LeapSDK/lib"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/processing/LeapMotionForProcessing.jar"/>

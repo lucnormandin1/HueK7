@@ -26,8 +26,8 @@ public class MyProject extends PApplet implements WindowFocusListener {
 	public final static int WIDTH = 500;
 	public final static int HEIGHT = 500;
 	public boolean focused = true;
-	public boolean bHue = true;
-	public boolean bLeap = false;
+	public boolean bHue = false;
+	public boolean bLeap = true;
 	
 	// Main variables
 	public int iBrightness;
@@ -58,7 +58,7 @@ public class MyProject extends PApplet implements WindowFocusListener {
 	public void draw() {
 
 		// Clear background
-		background(255, 0, 250);
+		background(0, 0, 250);
 		
 		if(bLeap)activateLeapmotion();
 		if(bHue)activateHue();
@@ -67,13 +67,13 @@ public class MyProject extends PApplet implements WindowFocusListener {
 	
 	public void setupLeapmotion(){
 		
-		leap = new LeapMotion(this);
-		
+		leap = new LeapMotion(this).withGestures();
+		println("here");
 	}
 	
 	public void activateHue(){
 		
-		lAllLights = ArrayList() bridge.getLights();
+		//lAllLights = ArrayList() bridge.getLights();
 		
 		try {
 				
@@ -104,7 +104,7 @@ public class MyProject extends PApplet implements WindowFocusListener {
 		lAllLights = new ArrayList<Light>();
 		
 		// Set first brightness;
-		iBrightness = 0;
+		iBrightness = 255;
 		
 		try {
 			
@@ -116,7 +116,7 @@ public class MyProject extends PApplet implements WindowFocusListener {
 			for (Light light : bridge.getLights()) {
 			    // light
 				FullLight fullLight = bridge.getLight(light);
-			    System.out.println(fullLight.getName() + "FIRST BRIGHTNESS (" + fullLight.getState().getBrightness() + ")");
+			   // System.out.println(fullLight.getName() + "FIRST BRIGHTNESS (" + fullLight.getState().getBrightness() + ")");
 			    bridge.setGroupState(bridge.getAllGroup(), new StateUpdate().turnOff());
 			
 			}
@@ -150,7 +150,7 @@ public class MyProject extends PApplet implements WindowFocusListener {
 	        // FINGERS
 	        for(Finger finger : hand.getFingers()){
 	        	
-	        	if (incr == 0) {
+	        	//if (incr == 0) {
 		        	
 		            // Basics
 		            finger.draw();
@@ -160,13 +160,13 @@ public class MyProject extends PApplet implements WindowFocusListener {
 		            PVector finger_velocity   = finger.getVelocity();
 		            PVector finger_direction  = finger.getDirection();
 	
-		            println("Pos X : " + finger_position.x);
-		            iBrightness = (int)finger_position.x;
+		          //  println("Pos X : " + finger_position.x);
+		         //   iBrightness = (int)finger_position.x;
 		            
 		            
-	        	}
+	        //	}
 	        	
-	        	incr ++ ;
+	        //	incr ++ ;
 	            
 	            
 	        }
@@ -183,6 +183,64 @@ public class MyProject extends PApplet implements WindowFocusListener {
 	    }		
 		
 	}
+	
+	void public onConnect(Controller controller) {
+	    System.out.println("Connected");
+	    controller.enableGesture(Gesture.Type.TYPE_SWIPE);
+	    controller.enableGesture(Gesture.Type.TYPE_CIRCLE);
+	    controller.enableGesture(Gesture.Type.TYPE_SCREEN_TAP);
+	    controller.enableGesture(Gesture.Type.TYPE_KEY_TAP);
+	}
+	
+	
+	// CIRCLE GESTURE
+	void leapOnCircleGesture(CircleGesture g, int state){
+	  int       id               = g.getId();
+	  Finger    finger           = g.getFinger();
+	  PVector   position_center  = g.getCenter();
+	  float     radius           = g.getRadius();
+	  float     progress         = g.getProgress();
+	  long      duration         = g.getDuration();
+	  float     duration_seconds = g.getDurationInSeconds();
+
+	  println("here");
+	  
+	  switch(state){
+	    case 1: // Start
+	      break;
+	    case 2: // Update
+	      break;
+	    case 3: // Stop
+	      println("CircleGesture: "+id);
+	      break;
+	  }
+	}
+	
+	// SWIPE GESTURE
+	void leapOnSwipeGesture(SwipeGesture g, int state){
+	    int     id                  = g.getId();
+	    Finger  finger              = g.getFinger();
+	    PVector position            = g.getPosition();
+	    PVector position_start      = g.getStartPosition();
+	    PVector direction           = g.getDirection();
+	    float   speed               = g.getSpeed();
+	    long    duration            = g.getDuration();
+	    float   duration_seconds    = g.getDurationInSeconds();
+
+	    println("Gesture");
+	    
+	    switch(state){
+	        case 1: // Start
+	            break;
+	        case 2: // Update
+	            break;
+	        case 3: // Stop
+	            println("SwipeGesture: "+id);
+	            break;
+	    }
+	}
+
+	
 	
 	public void windowGainedFocus(WindowEvent e) {
 		focused = true;
