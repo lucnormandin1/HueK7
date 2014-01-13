@@ -47,6 +47,7 @@ public class MyProject extends PApplet implements WindowFocusListener {
 		// Focus listener
 		frame.addWindowFocusListener(this);
 		
+		
 		// Setting up leapmotion
 		if(bLeap)setupLeapmotion();		
 		
@@ -68,7 +69,7 @@ public class MyProject extends PApplet implements WindowFocusListener {
 	public void setupLeapmotion(){
 		
 		leap = new LeapMotion(this).withGestures();
-		println("here");
+		
 	}
 	
 	public void activateHue(){
@@ -175,26 +176,32 @@ public class MyProject extends PApplet implements WindowFocusListener {
 
 	    }
 
-	    // DEVICES
-	    for(Device device : leap.getDevices()){
-	        float device_horizontal_view_angle = device.getHorizontalViewAngle();
-	        float device_verical_view_angle = device.getVerticalViewAngle();
-	        float device_range = device.getRange();
-	    }		
-		
+
 	}
-	
-	void public onConnect(Controller controller) {
-	    System.out.println("Connected");
-	    controller.enableGesture(Gesture.Type.TYPE_SWIPE);
-	    controller.enableGesture(Gesture.Type.TYPE_CIRCLE);
-	    controller.enableGesture(Gesture.Type.TYPE_SCREEN_TAP);
-	    controller.enableGesture(Gesture.Type.TYPE_KEY_TAP);
+
+	// SWIPE GESTURE
+	public void leapOnSwipeGesture(SwipeGesture g, int state){
+		  int       id               = g.getId();
+		  Finger    finger           = g.getFinger();
+		  PVector   position         = g.getPosition();
+		  PVector   position_start   = g.getStartPosition();
+		  PVector   direction        = g.getDirection();
+		  float     speed            = g.getSpeed();
+		  long      duration         = g.getDuration();
+		  float     duration_seconds = g.getDurationInSeconds();
+
+		  switch(state){
+		    case 1: // Start
+		      break;
+		    case 2: // Update
+		      break;
+		    case 3: // Stop
+		      println("SwipeGesture: "+id);
+		      break;
+		  }
 	}
-	
-	
 	// CIRCLE GESTURE
-	void leapOnCircleGesture(CircleGesture g, int state){
+	public void leapOnCircleGesture(CircleGesture g, int state){
 	  int       id               = g.getId();
 	  Finger    finger           = g.getFinger();
 	  PVector   position_center  = g.getCenter();
@@ -203,8 +210,6 @@ public class MyProject extends PApplet implements WindowFocusListener {
 	  long      duration         = g.getDuration();
 	  float     duration_seconds = g.getDurationInSeconds();
 
-	  println("here");
-	  
 	  switch(state){
 	    case 1: // Start
 	      break;
@@ -215,31 +220,6 @@ public class MyProject extends PApplet implements WindowFocusListener {
 	      break;
 	  }
 	}
-	
-	// SWIPE GESTURE
-	void leapOnSwipeGesture(SwipeGesture g, int state){
-	    int     id                  = g.getId();
-	    Finger  finger              = g.getFinger();
-	    PVector position            = g.getPosition();
-	    PVector position_start      = g.getStartPosition();
-	    PVector direction           = g.getDirection();
-	    float   speed               = g.getSpeed();
-	    long    duration            = g.getDuration();
-	    float   duration_seconds    = g.getDurationInSeconds();
-
-	    println("Gesture");
-	    
-	    switch(state){
-	        case 1: // Start
-	            break;
-	        case 2: // Update
-	            break;
-	        case 3: // Stop
-	            println("SwipeGesture: "+id);
-	            break;
-	    }
-	}
-
 	
 	
 	public void windowGainedFocus(WindowEvent e) {
