@@ -24,9 +24,9 @@ public class MyProject extends PApplet implements WindowFocusListener {
 	// Configuration
 	private static final long serialVersionUID = 1;
 	public final static int WIDTH = 500;
-	public final static int HEIGHT = 500;
+	public final static int HEIGHT = 250;
 	public boolean focused = true;
-	public boolean bHue = false;
+	public boolean bHue = true;
 	public boolean bLeap = true;
 	
 	// Main variables
@@ -42,7 +42,7 @@ public class MyProject extends PApplet implements WindowFocusListener {
 		size(WIDTH, HEIGHT, P3D);
 		hint(ENABLE_OPENGL_ERRORS);
 		hint(DISABLE_TEXTURE_MIPMAPS);
-		frameRate(60);
+		frameRate(1);
 		
 		// Focus listener
 		frame.addWindowFocusListener(this);
@@ -68,30 +68,41 @@ public class MyProject extends PApplet implements WindowFocusListener {
 	
 	public void setupLeapmotion(){
 		
+		// Create a new Leapmotion including Gesture
 		leap = new LeapMotion(this).withGestures();
 		
 	}
 	
 	public void activateHue(){
 		
-		//lAllLights = ArrayList() bridge.getLights();
-		
+
 		try {
 				
+			// Get all lights to be set the iBrightness
 			for (Light light : bridge.getLights()) {
 
+				// Light Object
 				FullLight fullLight = bridge.getLight(light);
-			   // System.out.println(fullLight.getName() + "SECOND BRIGHTNESS (" + fullLight.getState().getBrightness() + ")");
-			   if(iBrightness<255) bridge.setGroupState(bridge.getAllGroup(), new StateUpdate().turnOn().setBrightness(iBrightness));
+			   
+				// Set brightness
+				if(iBrightness<=255) {
+				   bridge.setGroupState(bridge.getAllGroup(), new StateUpdate().turnOn().setBrightness(iBrightness));
+				   println("My birghtness : " + iBrightness);
+			   
+			   }
+				   
+				   
+				   
+				  
 			}
 		
 		
 		} catch (IOException e) {
 			// Ton erreur va s'imprimer dans la console
-			//e.printStackTrace();	
+			e.printStackTrace();	
 		} catch (ApiException e) {
 			// Ton erreur va s'imprimer dans la console
-			//e.printStackTrace();
+			e.printStackTrace();
 		}
 		
 		
@@ -100,16 +111,16 @@ public class MyProject extends PApplet implements WindowFocusListener {
 	public void setupHueBridge(){
 		
 		//Create instance with IP
-		bridge = new HueBridge("192.168.1.10");
-		
-		lAllLights = new ArrayList<Light>();
+		bridge = new HueBridge("192.168.0.103");
 		
 		// Set first brightness;
-		iBrightness = 255;
+		iBrightness = 0;
+		
+		//Controller.connect(timeoutInterval = 0);
 		
 		try {
 			
-			// Autication with HUB
+			// Authentification with HUB
 			bridge.authenticate("newdeveloper");
 
 			
@@ -118,10 +129,9 @@ public class MyProject extends PApplet implements WindowFocusListener {
 			    // light
 				FullLight fullLight = bridge.getLight(light);
 			   // System.out.println(fullLight.getName() + "FIRST BRIGHTNESS (" + fullLight.getState().getBrightness() + ")");
-			    bridge.setGroupState(bridge.getAllGroup(), new StateUpdate().turnOff());
-			
+				bridge.setGroupState(bridge.getAllGroup(), new StateUpdate().setBrightness(iBrightness));
 			}
-
+			println("Ok Authenticate");
 		
 		} catch (IOException e) {
 			// Ton erreur va s'imprimer dans la console
@@ -137,46 +147,18 @@ public class MyProject extends PApplet implements WindowFocusListener {
 	
 	public void activateLeapmotion(){
 		
-		int fps = leap.getFrameRate();
-		
+
 		 // HANDS
 	    for(Hand hand : leap.getHands()){
 
+	    	// Draw hand
 	        hand.draw();
-	        
-	        int incr = 0;
-
-	      //  balls = new ArrayList<Ball>();
-	        
-	        // FINGERS
-	        for(Finger finger : hand.getFingers()){
-	        	
-	        	//if (incr == 0) {
-		        	
-		            // Basics
-		            finger.draw();
-		            int     finger_id         = finger.getId();
-		            PVector finger_position   = finger.getPosition();
-		            PVector finger_stabilized = finger.getStabilizedPosition();
-		            PVector finger_velocity   = finger.getVelocity();
-		            PVector finger_direction  = finger.getDirection();
-	
-		          //  println("Pos X : " + finger_position.x);
-		         //   iBrightness = (int)finger_position.x;
-		            
-		            
-	        //	}
-	        	
-	        //	incr ++ ;
-	            
-	            
-	        }
-
-	      
+	       
+	        // Set brightness as the Y position
+	        iBrightness = (int)hand.getRawPosition().y;
 
 	    }
-
-
+	    
 	}
 
 	// SWIPE GESTURE
@@ -197,29 +179,32 @@ public class MyProject extends PApplet implements WindowFocusListener {
 		      break;
 		    case 3: // Stop
 		      println("SwipeGesture: "+id);
+		      changeEnvironment();
+		      
 		      break;
 		  }
 	}
-	// CIRCLE GESTURE
-	public void leapOnCircleGesture(CircleGesture g, int state){
-	  int       id               = g.getId();
-	  Finger    finger           = g.getFinger();
-	  PVector   position_center  = g.getCenter();
-	  float     radius           = g.getRadius();
-	  float     progress         = g.getProgress();
-	  long      duration         = g.getDuration();
-	  float     duration_seconds = g.getDurationInSeconds();
-
-	  switch(state){
-	    case 1: // Start
-	      break;
-	    case 2: // Update
-	      break;
-	    case 3: // Stop
-	      println("CircleGesture: "+id);
-	      break;
-	  }
+	
+	public void changeEnvironment(){
+		
+		// Projection
+		
+		
+		
+		// Hue color
+		
+		
+	
+		
 	}
+
+	public void setHueColor(){
+		
+		
+		
+	}
+	
+
 	
 	
 	public void windowGainedFocus(WindowEvent e) {
